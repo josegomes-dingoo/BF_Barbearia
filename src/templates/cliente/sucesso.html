@@ -1,52 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agendamento Confirmado - BF Barbearia</title>
-    <!-- GATILHO AUTOMÁTICO: Redireciona para a raiz (/) após 5 segundos -->
     <meta http-equiv="refresh" content="5;url=/">
     <link rel="stylesheet" href="/static/main.css">
-    <style>
-        .sucesso-container {
-            max-width: 500px;
-            margin: 100px auto;
-            padding: 2.5rem;
-            background: #171717;
-            border: 1px solid var(--border-color, #262626);
-            border-radius: 8px;
-            text-align: center;
-        }
-        .progresso-barra {
-            height: 4px;
-            background: var(--accent, #db2777);
-            width: 100%;
-            margin-top: 2rem;
-            border-radius: 2px;
-            animation: contagem 5s linear forwards;
-        }
-        @keyframes contagem {
-            from { width: 100%; }
-            to { width: 0%; }
-        }
-    </style>
 </head>
-<body style="background: #0a0a0a; color: #fff; font-family: sans-serif;">
+<body>
+    <div class="faixa"></div>
 
-    <div class="sucesso-container">
-        <div style="font-size: 3.5rem; margin-bottom: 1rem;">🔥</div>
-        <h2 style="margin: 0 0 0.5rem 0; color: var(--accent, #db2777);">Agendamento Confirmado!</h2>
-        <p style="color: #a3a3a3; font-size: 0.9rem; line-height: 1.5;">
-            O teu horário foi bloqueado com sucesso.<br>
-            O motor de notificações já disparou o teu alerta.
-        </p>
+    <main class="centro">
+        <div class="cartao texto-centro">
+            <div class="selo">✓</div>
+            <h1>Está marcado{% if nome_cliente %}, {{ nome_cliente.split()[0] }}{% endif %}!</h1>
+            <p class="sub">O teu horário ficou reservado.{% if canal_notificacao == 'whatsapp' %} Vais receber a confirmação por WhatsApp.{% endif %}</p>
 
-        <p style="color: var(--text-muted, #737373); font-size: 0.75rem; margin-top: 1.5rem;">
-            A reencaminhar para a página inicial em 5 segundos...
-        </p>
-        <!-- Barra visual animada que indica o tempo restante -->
-        <div class="progresso-barra"></div>
-    </div>
+            <dl class="resumo">
+                <div><dt>Dia</dt><dd>{{ data_escolhida.split('-')|reverse|join('/') }}</dd></div>
+                <div><dt>Hora</dt><dd>{{ hora_escolhida }}</dd></div>
+            </dl>
 
+            <a href="/" class="btn btn-fantasma">Voltar ao início</a>
+            <div class="progresso"></div>
+        </div>
+    </main>
 </body>
 </html>

@@ -1,62 +1,36 @@
-<!-- login.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acesso Restrito - BF Barbearia</title>
     <link rel="stylesheet" href="/static/main.css">
-    <style>
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #0a0a0a;
-            margin: 0;
-            font-family: sans-serif;
-        }
-        .login-card {
-            background: #171717;
-            border: 1px solid #262626;
-            padding: 2.5rem;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 380px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        }
-    </style>
 </head>
 <body>
+    <div class="faixa"></div>
 
-    <div class="login-card">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <h2 style="margin:0; color:var(--accent); font-size: 1.5rem;">BF Barbearia</h2>
-            <p style="margin: 5px 0 0 0; font-size: 0.813rem; color: var(--text-muted);">Área de Administração Reservada</p>
+    <main class="centro">
+        <div class="cartao">
+            <img src="/static/images/logo.BF.jpg" alt="Logotipo BF Barbearia">
+            <h1 style="text-align: center;">Painel BF</h1>
+            <p class="sub" style="text-align: center;">Área reservada à equipa</p>
+
+            {% if erro %}
+                <div class="erro" role="alert">{{ erro }}</div>
+            {% endif %}
+
+            <form action="/admin/login" method="POST">
+                <div class="campo">
+                    <label for="utilizador">Utilizador</label>
+                    <input type="text" id="utilizador" name="utilizador" required class="input" autocomplete="username">
+                </div>
+                <div class="campo" style="margin-bottom: 1.5rem;">
+                    <label for="senha">Password</label>
+                    <input type="password" id="senha" name="senha" required class="input" autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-grande">Entrar</button>
+            </form>
         </div>
-
-        {% if erro %}
-            <div style="background: #fee2e2; color: #991b1b; padding: 10px; border-radius: 4px; font-size: 0.813rem; margin-bottom: 1.5rem; font-weight: 600; text-align: center;">
-                ⚠️ {{ erro }}
-            </div>
-        {% endif %}
-
-        <form action="/admin/login" method="POST">
-            <div class="form-group" style="margin-bottom: 1.25rem;">
-                <label class="form-label" style="font-size: 0.75rem;">Utilizador</label>
-                <input type="text" name="utilizador" required class="form-input" style="background: #0a0a0a;" >
-            </div>
-
-            <div class="form-group" style="margin-bottom: 1.75rem;">
-                <label class="form-label" style="font-size: 0.75rem;">Password</label>
-                <input type="password" name="senha" required class="form-input" style="background: #0a0a0a;">
-            </div>
-
-            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem; font-weight: 600;">
-                Entrar no Painel
-            </button>
-        </form>
-    </div>
-
+    </main>
 </body>
 </html>

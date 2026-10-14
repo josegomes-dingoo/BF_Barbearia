@@ -1,175 +1,143 @@
 <!DOCTYPE html>
-<html lang="eng">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Barbeiro - Gestão de Reservas</title>
-    <!-- Rota limpa para o ficheiro CSS local -->
     <link rel="stylesheet" href="/static/main.css">
 </head>
 <body>
+    <div class="faixa"></div>
 
-    <!-- Topbar / Cabeçalho -->
-    <header>
-        <div>
-            <h1 style="margin:0; font-size:1.25rem;">BF Barbearia Admin</h1>
-            <form action="/admin/" method="GET" style="display: flex; gap: 10px; align-items: center; margin-top: 5px;">
-                <p style="margin:0; font-size:0.75rem; color:var(--text-muted);">Agenda: <span style="color:var(--accent);">{{ data_hoje }}</span></p>
-
-                <!-- Filtro de Calendário de Navegação Rápida -->
-                <input type="date" name="data" id="filtro_data_topo" value="{{ data_hoje_crua }}"
-                       style="background: #171717; border: 1px solid var(--border-color); color: var(--text-main); font-size: 0.75rem; border-radius: 4px; padding: 2px 5px; cursor: pointer;">
-
-                <!-- Seletor de Barbeiros Integrado por URL -->
-                <select id="filtro_barbeiro_topo" style="background: #171717; border: 1px solid var(--border-color); color: var(--text-main); font-size: 0.75rem; border-radius: 4px; padding: 2px 5px; cursor: pointer;">
-                    <option value="" {% if not filtro_atual %}selected{% endif %}>Ver Todos os Barbeiros</option>
-                    <option value="barbeiro_1" {% if filtro_atual == 'barbeiro_1' %}selected{% endif %}>Bruno Ferreira Barber</option>
-                    <option value="barbeiro_2" {% if filtro_atual == 'barbeiro_2' %}selected{% endif %}>Matheus Santos Barber</option>
+    <header class="admin-topo">
+        <div class="admin-topo-conteudo">
+            <div class="marca">
+                <img src="/static/images/logo.BF.jpg" alt="">
+                <div>
+                    <h1>BF Barbearia</h1>
+                    <p>Painel de reservas</p>
+                </div>
+            </div>
+            <div class="filtros">
+                <input type="date" id="filtro_data_topo" value="{{ data_hoje_crua }}" class="input" aria-label="Dia">
+                <select id="filtro_barbeiro_topo" class="input" aria-label="Barbeiro">
+                    <option value="" {% if not filtro_atual %}selected{% endif %}>Todos os barbeiros</option>
+                    <option value="barbeiro_1" {% if filtro_atual == 'barbeiro_1' %}selected{% endif %}>Bruno Ferreira</option>
+                    <option value="barbeiro_2" {% if filtro_atual == 'barbeiro_2' %}selected{% endif %}>Matheus Santos</option>
                 </select>
-            </form>
+                <button onclick="toggleModal(true)" class="btn">+ Nova marcação</button>
+            </div>
         </div>
-        <button onclick="toggleModal(true)" class="btn-primary">
-            Nova Marcação Manual
-        </button>
     </header>
 
-    <!-- Conteúdo Principal -->
-    <main>
-        <!-- Blocos de Resumo Rápido -->
-        <div class="grid-resumo">
-            <div class="card-resumo">
-                <div style="font-size:0.75rem; color:var(--text-muted);">TOTAL HOJE</div>
-                <div style="font-size:1.5rem; font-weight:700; margin-top:0.25rem;">
-                    {{ total_hoje }} {% if total_hoje == 1 %}Corte{% else %}Cortes{% endif %}
-                </div>
+    <main class="admin">
+        <h2 class="admin-data"><small>Agenda</small>{{ data_hoje }}</h2>
+
+        <div class="kpis">
+            <div class="kpi">
+                <span class="rotulo">Marcações</span>
+                <strong>{{ total_hoje }}</strong>
             </div>
-            <div class="card-resumo">
-                <div style="font-size:0.75rem; color:var(--text-muted);">VIA WHATSAPP</div>
-                <div style="font-size:1.5rem; font-weight:700; margin-top:0.25rem; color:#4ade80;">
-                    {{ total_whatsapp }}
-                </div>
+            <div class="kpi verde">
+                <span class="rotulo">Com lembrete WhatsApp</span>
+                <strong>{{ total_whatsapp }}</strong>
             </div>
         </div>
 
-        <!-- Lista de Reservas Dinâmica -->
-        <div class="lista-container">
-            <div class="lista-header" style="display: flex; justify-content: space-between; align-items: center;">
-                <span>Próximos Clientes (Dia Consultado)</span>
+        <div class="agenda">
+            <div class="agenda-titulo rotulo">Próximos clientes</div>
+
+            {% for agendamento in agendamentos %}
+            <div class="marcacao">
+                <div class="hora">{{ agendamento.hora }}</div>
+                <div class="quem">
+                    <h3>{{ agendamento.nome if agendamento.nome else "Bloqueio de horário" }}</h3>
+                    <p>
+                        {% if agendamento.servico == 'corte' %}Corte de cabelo · 13€
+                        {% elif agendamento.servico == 'corte+sobrancelha' %}Corte + sobrancelha · 14€
+                        {% elif agendamento.servico == 'corte+bigode+sobrancelha' %}Corte + bigode e sobrancelha · 15€
+                        {% elif agendamento.servico == 'corte+barba' %}Corte + barba · 18€
+                        {% elif agendamento.servico == 'corte+barba+sobrancelha' %}Corte + barba e sobrancelha · 19€
+                        {% elif agendamento.servico == 'corte zero+barba' %}Pente zero e alinhar barba · 13€
+                        {% elif agendamento.servico == 'corte M60' %}Corte maiores de 60 anos · 10€
+                        {% elif agendamento.servico == 'barba' %}Barba · 7€
+                        {% elif agendamento.servico in ['manual', 'Marcação Manual (Telefone)'] %}Marcação manual / telefone
+                        {% else %}Horário ocupado
+                        {% endif %}
+                        {% if agendamento.telemovel %} · <a href="tel:{{ agendamento.telemovel }}">{{ agendamento.telemovel }}</a>{% endif %}
+                    </p>
+                </div>
+                <div class="acoes">
+                    {% if agendamento.barbeiro == 'barbeiro_1' %}
+                        <span class="tag bruno">Bruno</span>
+                    {% else %}
+                        <span class="tag matheus">Matheus</span>
+                    {% endif %}
+
+                    {% if agendamento.canal == 'whatsapp' %}
+                        <span class="tag whatsapp">WhatsApp</span>
+                    {% else %}
+                        <span class="tag">Sem lembrete</span>
+                    {% endif %}
+
+                    <form action="/admin/cancelar/{{ agendamento.id }}" method="POST" style="margin: 0;">
+                        <button type="submit" class="btn-cancelar" onclick="return confirm('Confirmar cancelamento? Isto vai libertar o horário e acionar o Caça-Vagas.')">Cancelar</button>
+                    </form>
+                </div>
             </div>
-
-            {% if agendamentos %}
-                {% for agendamento in agendamentos %}
-                <div class="cliente-item">
-                    <div class="cliente-info">
-                        <!-- Mostra a Hora e a Data da Marcação -->
-                        <div class="hora-tag">{{ agendamento.hora }}</div>
-                        <div>
-                            <!-- Exibe o Nome e o Telemóvel se existirem (Fallback para marcações antigas/simuladas) -->
-                            <h4 style="margin:0; font-size:0.875rem;">
-                                {{ agendamento.nome if agendamento.nome else "Bloqueio de Horário" }}
-                            </h4>
-                            <p style="margin:0; font-size:0.75rem; color:var(--text-muted);">
-                                {% if agendamento.servico == 'corte' %} ✂️ Corte de Cabelo (13€)
-                                {% elif agendamento.servico == 'corte+sobrancelha' %} 📐 Corte + Sobrancelha (14€)
-                                {% elif agendamento.servico == 'corte+bigode+sobrancelha' %} 🧔‍♂️ Corte + Bigode e Sobrancelha (15€)
-                                {% elif agendamento.servico == 'corte+barba' %} 🔥 Corte + Barba (18€)
-                                {% elif agendamento.servico == 'corte+barba+sobrancelha' %} 👑 Corte + Barba e Sobrancelha (19€)
-                                {% elif agendamento.servico == 'corte zero+barba' %} 🧑‍🦲 Pente Zero e Alinhar Barba (13€)
-                                {% elif agendamento.servico == 'corte M60' %} 👴 Corte Maiores de 60 anos (10€)
-                                {% elif agendamento.servico == 'barba' %} 🪒 Barba (7€)
-                                {% elif agendamento.servico in ['manual', 'Marcação Manual (Telefone)'] %} 📞 Marcação Manual / Telefone
-                                {% else %} 📅 Horário Ocupado
-                                {% endif %}
-                                {% if agendamento.telemovel %} | {{ agendamento.telemovel }} {% endif %}
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Badges estéticos para o Barbeiro e o Canal de Alerta -->
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                        <!-- Identificação do Barbeiro -->
-                        {% if agendamento.barbeiro == 'barbeiro_1' %}
-                            <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background-color: #eff6ff; color: #1d4ed8; border-radius: 4px; font-weight: 600;">Bruno</span>
-                        {% else %}
-                            <span style="font-size: 0.75rem; padding: 0.25rem 0.5rem; background-color: #ecfdf5; color: #047857; border-radius: 4px; font-weight: 600;">Matheus</span>
-                        {% endif %}
-
-                        <!-- Canal de Notificação Ativo -->
-                        {% if agendamento.canal == 'whatsapp' %}
-                            <span class="badge-whatsapp">📱 WhatsApp</span>
-                        {% else %}
-                            <span class="badge-whatsapp" style="background-color: #f3f4f6; color: #6b7280;">🔕 Alerta Inativo</span>
-                        {% endif %}
-
-                        <!-- Gatilho Caça-Vafas PostgreSQL -->
-                        <form action="/admin/cancelar/{{ agendamento.id }}" method="POST" style="margin: 0;">
-                            <button type="submit" style="background: #fee2e2; color: #991b1b; border: none; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; cursor: pointer;" onclick="return confirm('Confirmar cancelamento? Isto vai libertar o horário e acionar o Caça-Vagas.')">
-                                ❌ Cancelar
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                {% endfor %}
             {% else %}
-                <!-- Mensagem amigável caso a lista ou o filtro estejam vazios -->
-                <div style="padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.875rem;">
-                    📭 Não existem marcações registadas para este filtro ou dia.
-                </div>
-            {% endif %}
+            <div class="vazio">Não há marcações para este dia ou filtro.</div>
+            {% endfor %}
         </div>
     </main>
 
-    <!-- WINDOW MODAL (Formulário Oculto e Centralizado) -->
     <div id="bookingModal" class="modal-overlay hidden">
         <div class="modal-content">
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:0.5rem; margin-bottom:1rem;">
-                <h3 style="margin:0; color:var(--accent);">Nova Marcação Manual</h3>
-                <button onclick="toggleModal(false)" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-weight:600; font-size:0.875rem;">Fechar</button>
+            <div class="modal-cabecalho">
+                <h2>Nova marcação</h2>
+                <button onclick="toggleModal(false)" class="btn btn-fantasma">Fechar</button>
             </div>
 
-            <!-- Formulário adaptado para a rota em português -->
             <form action="/admin/marcar" method="POST">
-                <div class="form-group">
-                    <label class="form-label">Nome do Cliente</label>
-                    <input type="text" name="nome" required class="form-input" placeholder="Ex: Rodrigo Silva">
+                <div class="campo">
+                    <label for="nome_manual">Nome do cliente</label>
+                    <input type="text" id="nome_manual" name="nome" required class="input" placeholder="Ex: Rodrigo Silva">
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Telemóvel</label>
-                    <input type="tel" name="telemovel" required class="form-input" placeholder="Ex: 912345678">
+                <div class="campo">
+                    <label for="tel_manual">Telemóvel</label>
+                    <input type="tel" id="tel_manual" name="telemovel" required class="input" placeholder="Ex: 912345678">
                 </div>
 
                 <div class="grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Data do Corte</label>
-                        <input type="date" name="data" id="data_manual" value="{{ data_hoje_crua }}" required class="form-input">
+                    <div class="campo">
+                        <label for="data_manual">Dia</label>
+                        <input type="date" name="data" id="data_manual" value="{{ data_hoje_crua }}" required class="input">
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Barbeiro Responsável</label>
-                        <select name="barbeiro" id="barbeiro_manual" class="form-input" required>
-                            <option value="barbeiro_1">Bruno Ferreira Barber</option>
-                            <option value="barbeiro_2">Matheus Santos Barber</option>
+                    <div class="campo">
+                        <label for="barbeiro_manual">Barbeiro</label>
+                        <select name="barbeiro" id="barbeiro_manual" class="input" required>
+                            <option value="barbeiro_1">Bruno Ferreira</option>
+                            <option value="barbeiro_2">Matheus Santos</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="grid-2">
-                    <div class="form-group">
-                        <label class="form-label">Horário Disponível</label>
-                        <select name="hora" id="hora_manual" class="form-input" required>
+                    <div class="campo">
+                        <label for="hora_manual">Hora</label>
+                        <select name="hora" id="hora_manual" class="input" required>
                             <option value="">A carregar vagas...</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Notificação</label>
-                        <select name="canal" class="form-input">
+                    <div class="campo">
+                        <label for="canal_manual">Lembrete</label>
+                        <select name="canal" id="canal_manual" class="input">
                             <option value="whatsapp" selected>WhatsApp</option>
-                            <option value="nenhum">Não quero lembrete</option>
+                            <option value="nenhum">Sem lembrete</option>
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="btn-primary" style="width:100%; justify-content:center; margin-top:1rem; padding:0.75rem;">
-                    Confirmar e Bloquear Horário
-                </button>
+                <button type="submit" class="btn btn-grande">Confirmar e bloquear horário</button>
             </form>
         </div>
     </div>

@@ -1,317 +1,252 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BF Barbearia - Agendamento Online</title>
-    <!-- Reutiliza o teu CSS local super leve -->
     <link rel="stylesheet" href="/static/main.css">
-
-    <style>
-        *, *::before, *::after {
-            box-sizing: border-box !important;
-        }
-
-        html, body {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100% !important;
-            max-width: 100% !important;
-            overflow-x: hidden !important;
-            position: relative;
-
-        }
-
-        main {
-            display: block;
-            width: 100% !important;
-            max-width: 32rem !important;
-            margin: 0 auto !important;
-            padding: 1.5rem 12px 3rem 12px !important;
-        }
-
-        .lista-container, .form-group, .form-input, select, input, .grid-2 {
-            width: 100% !important;
-            max-width: 100% !important;
-            box-sizing: border-box !important;
-        }
-
-        @media (max-width: 440px) {
-            .grid-2 {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 1rem !important;
-            }
-        }
-
-        .header-horizontal-premium {
-            background-color: #121212 !important;
-            width: 100% !important;
-            padding: 1.25rem 1rem !important;
-            border-bottom: 2px solid #f59e0b;
-        }
-
-        .header-flex-container {
-            width: 100% !important;
-            max-width: 32rem;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .logo-horizontal-mini {
-            width: 60px; /* Tamanho controlado para manter nitidez absoluta */
-            height: 60px;
-            object-fit: cover;
-            background-color: #ffffff; /* Protege o fundo original da imagem */
-            border-radius: 50%; /* Formato circular moderno */
-            border: 2px solid #f59e0b; /* Aro dourado premium */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            flex-shrink: 0;
-        }
-
-        .header-texto-bloco {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: left;
-            min-width: 0;
-        }
-
-        .header-titulo-real {
-            margin: 0 !important;
-            font-size: 1.4rem !important;
-            color: #ffffff !important;
-            font-weight: 800;
-            white-space: nowrap;
-        }
-
-        .header-subtitulo-real {
-            margin: 4px 0 0 0 !important;
-            font-size: 0.85rem !important;
-            color: #f59e0b !important;
-            font-weight: 600;
-            word-wrap: break-word;
-        }
-
-        .btn-submit-premium {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
-            color: #000000 !important; /* Texto escuro sobre o dourado dá leitura perfeita */
-            font-size: 1.15rem !important;
-            font-weight: 700 !important;
-            border: none !important;
-            border-radius: 10px !important;
-            padding: 16px !important;
-            cursor: pointer !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 10px !important;
-            width: 100% !important; /* Garante que o botão preenche a largura do ecrã */
-            min-height: 54px !important;
-            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3) !important;
-            transition: all 0.2s ease !important;
-            margin-top: 1rem !important;
-            text-decoration: none !important;
-        }
-
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            cursor: pointer;
-            border-radius: 4px;
-
-            /* Inverte a cor de preto para branco e dá um brilho dourado */
-            filter: invert(1) sepia(100%) saturate(10000%) hue-rotate(320deg) brightness(95%);
-
-            opacity: 1 !important; /* Garante que não fica transparente */
-            padding: 2px;
-        }
-
-        /* Garante compatibilidade visual também para quando o campo estiver focado */
-        input[type="date"]::-webkit-calendar-picker-indicator:hover {
-            filter: invert(1) sepia(100%) saturate(10000%) hue-rotate(320deg) brightness(110%);
-        }
-
-        /* Efeito de clique suave no telemóvel */
-        .btn-submit-premium:active {
-            transform: scale(0.98) !important;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2) !important;
-        }
-
-        /* Rodapé Minimalista Integrado */
-        .footer-info {
-            text-align: center;
-            margin-top: 2rem;
-            padding: 0 16px 2rem 16px; /* Adiciona margens internas para o texto não bater no vidro */
-            font-size: 0.85rem;
-            color: var(--text-muted); /* CORRIGIDO: Usa a variável existente no teu main.css */
-            line-height: 1.5;
-            width: 100% !important;
-            box-sizing: border-box !important;
-            word-wrap: break-word !important;
-        }
-
-        .telefone-destaque {
-            color: #f59e0b !important;
-            font-weight: 700;
-        }
-    </style>
 </head>
 <body>
+    <div class="faixa"></div>
 
-    <!-- Cabeçalho Público -->
-    <header class="header-horizontal-premium">
-        <div class="header-flex-container">
-            <img src="/static/images/logo.BF.jpg" alt="Logotipo BF" class="logo-horizontal-mini">
-            <div class="header-texto-bloco">
-                <h1 class="header-titulo-real">BF Barbearia</h1>
-                <p class="header-subtitulo-real">Marca o teu corte em 10 segundos</p>
+    <header class="loja">
+        <div class="loja-conteudo">
+            <img src="/static/images/logo.BF.jpg" alt="Logotipo BF Barbearia">
+            <div>
+                <h1>BF Barbearia</h1>
+                <p>Rua 5 de Outubro, Nº 85, Montemor-o-Novo</p>
             </div>
+            <nav class="loja-links">
+                <a href="tel:+351912513509">Ligar</a>
+                <a href="https://www.instagram.com/bfbarbearia1/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            </nav>
         </div>
     </header>
 
-    <!-- Conteúdo Principal do Cliente -->
-    <main style="max-width: 32rem; width: 100%; margin: 0 auto; padding: 0 8px; box-sizing: border-box;">
-
-        <!-- Formulário de Agendamento Público -->
-        <form action="/agendar" method="POST" class="lista-container" style="width: 100%; padding: 1rem; box-sizing: border-box; display: flex; flex-direction: column; gap: 1.25rem;">
-
-            <!-- 1. ESCOLHER SERVIÇO -->
-            <div class="form-group" style="margin-bottom: 1.5rem;">
-                <label class="form-label">1. Escolha o Serviço</label>
-                <select name="servico" required class="form-input" style="padding: 0.75rem;">
-                    <option value="" disabled selected>Selecione uma opção...</option>
-                    <option value="corte+sobrancelha">CORTE + SOBRANCELHA (14€)</option>
-                    <option value="corte+bigode+sobrancelha">CORTE + BIGODE E SOBRANCELHA (15€)</option>
-                    <option value="corte+barba+sobrancelha">CORTE + BARBA E SOBRANCELHA (19€)</option>
-                    <option value="corte+barba">CORTE + BARBA (18€)</option>
-                    <option value="corte">CORTE DE CABELO (13€)</option>
-                    <option value="corte zero+barba">PENTE ZERO E ALINHAR BARBA (13€)</option>
-                    <option value="corte M60">CORTE MAIORES DE 60 anos (10€)</option>
-                    <option value="barba">BARBA (7€)</option>
-                </select>
-            </div>
-
-            <!-- 2. ESCOLHER DATA E HORA -->
-            <div class="grid-2" style="margin-bottom: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-
-                <!-- Campo do Dia -->
-                <div class="form-group">
-                    <label class="form-label label-destacada">2. Escolha o Dia </label>
-                    <input type="date" id="campo-data" name="data" min="{{ data_atual_sistema }}" required class="form-input campo-grande">
+    <form action="/agendar" method="POST" class="reserva-layout" id="form-reserva">
+        <div>
+            <div class="etapas">
+                <button type="button" class="voltar" id="btn-voltar" aria-label="Voltar" hidden>←</button>
+                <div>
+                    <p id="etapa-num">Passo 1 de 4</p>
+                    <h2 id="etapa-titulo">Escolhe o serviço</h2>
                 </div>
-
-                <!-- Campo do Barbeiro -->
-                <div class="form-group">
-                    <label class="form-label label-destacada">3. Escolha o Barbeiro</label>
-                    <select id="campo-barbeiro" name="barbeiro" required class="form-input campo-grande">
-                        <option value="qualquer" selected>Qualquer um (Mais rápido)</option>
-                        <option value="barbeiro_1">Bruno Ferreira Barber</option>
-                        <option value="barbeiro_2">Matheus Santos Barber</option>
-                    </select>
-                </div>
-
             </div>
+            <div class="barra"><span id="etapa-barra" style="width: 25%"></span></div>
 
-            <div class="form-group">
-                <label class="form-label">Hora Disponível</label>
-                <select id="campo-hora" name="hora" required class="form-input" style="padding: 0.75rem;">
-                    <option value="" disabled selected>Selecione...</option>
-                    {% for hora in horarios %}
-                    <option value="{{ hora }}">{{ hora }}</option>
+            <section class="passo ativo" data-titulo="Escolhe o serviço">
+                <div class="lista-servicos">
+                    {% for valor, nome, preco in [
+                        ('corte', 'Corte de cabelo', 13),
+                        ('corte+sobrancelha', 'Corte + sobrancelha', 14),
+                        ('corte+bigode+sobrancelha', 'Corte + bigode e sobrancelha', 15),
+                        ('corte+barba', 'Corte + barba', 18),
+                        ('corte+barba+sobrancelha', 'Corte + barba e sobrancelha', 19),
+                        ('corte zero+barba', 'Pente zero e alinhar barba', 13),
+                        ('corte M60', 'Corte maiores de 60 anos', 10),
+                        ('barba', 'Barba', 7),
+                    ] %}
+                    <label class="opcao servico">
+                        <input type="radio" name="servico" value="{{ valor }}" data-nome="{{ nome }}" data-preco="{{ preco }}" required>
+                        <span class="check"></span>
+                        <strong>{{ nome }}</strong>
+                        <span class="preco">{{ preco }}€</span>
+                    </label>
                     {% endfor %}
-                </select>
+                </div>
+            </section>
+
+            <section class="passo" data-titulo="Escolhe o barbeiro">
+                <div class="barbeiros" id="campo-barbeiro">
+                    <label class="opcao barbeiro">
+                        <input type="radio" name="barbeiro" value="qualquer" data-nome="Qualquer um" checked>
+                        <span class="avatar">✂</span>
+                        <strong>Qualquer um</strong>
+                        <small>Mais vagas</small>
+                    </label>
+                    <label class="opcao barbeiro">
+                        <input type="radio" name="barbeiro" value="barbeiro_1" data-nome="Bruno Ferreira">
+                        <span class="avatar bruno">BF</span>
+                        <strong>Bruno Ferreira</strong>
+                        <small>Barbeiro</small>
+                    </label>
+                    <label class="opcao barbeiro">
+                        <input type="radio" name="barbeiro" value="barbeiro_2" data-nome="Matheus Santos">
+                        <span class="avatar matheus">MS</span>
+                        <strong>Matheus Santos</strong>
+                        <small>Barbeiro</small>
+                    </label>
+                </div>
+            </section>
+
+            <section class="passo" data-titulo="Escolhe dia e hora">
+                <div class="dias" id="campo-data" data-hoje="{{ data_atual_sistema }}"></div>
+                <div id="campo-hora">
+                    <p class="aviso">Escolhe um dia para veres as vagas.</p>
+                </div>
+            </section>
+
+            <section class="passo" data-titulo="Os teus dados">
+                <div class="cartao-campos">
+                    <div class="campo">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" name="nome" placeholder="Ex: Rodrigo Silva" required class="input" autocomplete="name">
+                    </div>
+                    <div class="campo">
+                        <label for="telemovel">Telemóvel</label>
+                        <input type="tel" id="telemovel" name="telemovel" placeholder="9xxxxxxxx" required class="input" pattern="^9[12367]\d{7}$" inputmode="numeric" autocomplete="tel-national" title="O número deve ter 9 dígitos e começar por 91, 92, 93, 96 ou 97">
+                    </div>
+                    <div class="campo">
+                        <span class="rotulo">Lembrete da marcação</span>
+                        <div class="segmentado">
+                            <label class="opcao"><input type="radio" name="canal" value="whatsapp" checked>WhatsApp</label>
+                            <label class="opcao"><input type="radio" name="canal" value="nenhum">Sem lembrete</label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <aside class="resumo-lateral">
+            <div class="resumo-loja">
+                <img src="/static/images/logo.BF.jpg" alt="">
+                <div>
+                    <strong>BF Barbearia</strong>
+                    <small>Montemor-o-Novo</small>
+                </div>
             </div>
-
-            <!-- 3. DADOS DE CONTACTO E PREFERÊNCIA DE NOTIFICAÇÃO -->
-            <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-bottom: 1.5rem;">
-                <div class="form-group">
-                    <label class="form-label">O teu Nome</label>
-                    <input type="text" name="nome" placeholder="Ex: Rodrigo Silva" required class="form-input" style="padding: 0.75rem;">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Telemóvel (Para avisos)</label>
-                    <input type="tel" name="telemovel" placeholder="9xxxxxxxx" required class="form-input" pattern="^9[12367]\d{7}$" inputmode="numeric" title="O número deve ter 9 dígitos e começar por 91, 92, 93 ou 96" style="padding: 0.75rem; background-color: #0a0a0a !important; color: #f5f5f5 !important;">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Como queres receber o lembrete?</label>
-                    <select name="canal" class="form-input" style="padding: 0.75rem; border-color: var(--accent);">
-                        <option value="whatsapp">Mensagem por WhatsApp</option>
-                        <option value="nenhum">Sem Lembrete</option>
-                    </select>
-                </div>
+            <ul class="resumo-lista">
+                <li><span>Serviço</span><b id="r-servico">—</b></li>
+                <li><span>Barbeiro</span><b id="r-barbeiro">Qualquer um</b></li>
+                <li><span>Dia</span><b id="r-data">—</b></li>
+                <li><span>Hora</span><b id="r-hora">—</b></li>
+            </ul>
+            <div class="resumo-total">
+                <span>Total</span>
+                <strong id="r-total">—</strong>
+                <small class="resumo-linha" id="r-linha">Escolhe um serviço</small>
             </div>
+            <button type="button" class="btn btn-grande" id="btn-avancar" disabled>Continuar</button>
+        </aside>
+    </form>
 
-            <!-- BOTÃO FINAL -->
-            <button type="submit" class="btn-submit-premium">
-                <span>Confirmar Agendamento</span>
-            </button>
-        </form>
-
-    </main>
-
-    <!-- RODAPÉ INFORMATIVO -->
-    <footer class="footer-info" style="margin-top: 0.5rem; padding-top: 0;">
-        <p style="margin: 0 0 1rem 0;">
-            <a href="https://www.instagram.com/bfbarbearia1/" target="_blank" rel="noopener noreferrer" style="color: #e1306c; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; font-size: 0.95rem;">
-                📸 Segue-nos no Instagram
-            </a>
-        </p>
-        <p style="margin: 0; font-size: 0.95rem; font-weight: 600;">📍 Rua 5 de Outubro, Nº 85, Montemor-o-Novo</p>
-        <p style="margin: 8px 0 0 0; font-size: 0.95rem;">📞 Apoio ao Cliente: <span class="telefone-destaque">+351 912 513 509</span></p>
-        <p style="margin-top: 1.5rem; opacity: 0.4; font-size: 0.75rem;">BF Barbearia © 2027 • Todos os direitos reservados.</p>
+    <footer class="rodape">
+        BF Barbearia © {{ data_atual_sistema[:4] }} · Aberto de terça a sábado · <a href="tel:+351912513509">+351 912 513 509</a>
     </footer>
 
-    <!-- Script que conecta o ecrã ao cliente. -->
     <script>
-        const inputData = document.getElementById('campo-data');
-        const selectBarbeiro = document.getElementById('campo-barbeiro');
-        const selectHora = document.getElementById('campo-hora');
+        const form = document.getElementById('form-reserva');
+        const passos = [...document.querySelectorAll('.passo')];
+        const campoDias = document.getElementById('campo-data');
+        const campoHora = document.getElementById('campo-hora');
+        const btnAvancar = document.getElementById('btn-avancar');
+        const btnVoltar = document.getElementById('btn-voltar');
+        let atual = 0;
 
-        async function atualizarHorarios() {
-            const data = inputData.value;
-            const barbeiro = selectBarbeiro.value;
+        const escolhido = (nome) => form.querySelector(`input[name="${nome}"]:checked`);
 
-            if (!data || !barbeiro) return;
-
-            // VALIDAÇÃO DOS DIAS DE FOLGA (Domingo e Segunda)
-            // O JavaScript lê datas no formato ISO com hifen adicionando a timezone local correta
-            const dataObj = new Date(data + 'T00:00:00');
-            const diaDaSemana = dataObj.getDay(); // 0 = Domingo, 1 = Segunda
-
-            if (diaDaSemana === 0 || diaDaSemana === 1) {
-                // Esvazia as horas e injeta o alerta como uma opção inválida e selecionada
-                selectHora.innerHTML = '<option value="" disabled selected>🚫 Dia de Folga da Equipe</option>';
-                return; // Corta a execução e não faz o fetch para o Flask
-            }
-
-            try {
-                const resposta = await fetch(`/verificar-disponibilidade?data=${data}&barbeiro=${barbeiro}`);
-                const horariosLivres = await resposta.json();
-                const valorSelecionado = selectHora.value;
-
-                selectHora.innerHTML = '<option value="" disabled selected>Selecione...</option>';
-
-                if (horariosLivres.length === 0) {
-                    selectHora.innerHTML = '<option value="" disabled selected>❌ Sem vagas para este dia</option>';
-                    return;
-                }
-
-                horariosLivres.forEach(hora => {
-                    const option = document.createElement('option');
-                    option.value = hora;
-                    option.textContent = hora;
-                    if (hora === valorSelecionado) option.selected = true;
-                    selectHora.appendChild(option);
-                });
-            } catch (erro) {
-                console.error("Erro ao obter horários do Flask:", erro);
-            }
+        // Faixa de dias a partir da data do servidor; domingo e segunda ficam desativados
+        const [ano, mes, dia] = campoDias.dataset.hoje.split('-').map(Number);
+        for (let i = 0; i < 28; i++) {
+            const d = new Date(ano, mes - 1, dia + i);
+            const valor = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+            const fechado = d.getDay() === 0 || d.getDay() === 1;
+            const semana = i === 0 ? 'Hoje' : d.toLocaleDateString('pt-PT', { weekday: 'long' }).slice(0, 3);
+            const nomeMes = d.toLocaleDateString('pt-PT', { month: 'short' }).replace('.', '');
+            campoDias.insertAdjacentHTML('beforeend', `
+                <label class="opcao dia" title="${fechado ? 'Fechado' : ''}">
+                    <input type="radio" name="data" value="${valor}" required ${fechado ? 'disabled' : ''}
+                           data-nome="${d.toLocaleDateString('pt-PT', { weekday: 'short', day: 'numeric', month: 'short' })}">
+                    <small>${semana}</small><strong>${d.getDate()}</strong><small>${nomeMes}</small>
+                </label>`);
         }
 
-        inputData.addEventListener('change', atualizarHorarios);
-        selectBarbeiro.addEventListener('change', atualizarHorarios);
+        function aviso(texto) {
+            campoHora.innerHTML = `<p class="aviso">${texto}</p>`;
+        }
+
+        function botoesHoras(horas, selecionada) {
+            return '<div class="horas">' + horas.map(hora => `
+                <label class="opcao hora-opcao">
+                    <input type="radio" name="hora" value="${hora}" required ${hora === selecionada ? 'checked' : ''}>${hora}
+                </label>`).join('') + '</div>';
+        }
+
+        async function atualizarHorarios() {
+            const data = escolhido('data')?.value;
+            const barbeiro = escolhido('barbeiro')?.value;
+            if (!data || !barbeiro) return;
+
+            const selecionada = escolhido('hora')?.value;
+            aviso('A procurar vagas...');
+            try {
+                const resposta = await fetch(`/verificar-disponibilidade?data=${data}&barbeiro=${barbeiro}`);
+                const livres = await resposta.json();
+
+                if (livres.length === 0) {
+                    aviso('Sem vagas neste dia. Experimenta outro.');
+                } else {
+                    const manha = livres.filter(h => h < '13:00');
+                    const tarde = livres.filter(h => h >= '13:00');
+                    campoHora.innerHTML =
+                        (manha.length ? '<p class="turno">Manhã</p>' + botoesHoras(manha, selecionada) : '') +
+                        (tarde.length ? '<p class="turno">Tarde</p>' + botoesHoras(tarde, selecionada) : '');
+                }
+            } catch (erro) {
+                console.error("Erro ao obter horários do Flask:", erro);
+                aviso('Não foi possível carregar as vagas. Tenta novamente.');
+            }
+            atualizarResumo();
+        }
+
+        function passoCompleto(i) {
+            if (i === 0) return !!escolhido('servico');
+            if (i === 1) return !!escolhido('barbeiro');
+            if (i === 2) return !!escolhido('data') && !!escolhido('hora');
+            return true;
+        }
+
+        function atualizarResumo() {
+            const servico = escolhido('servico');
+            const data = escolhido('data');
+            const hora = escolhido('hora');
+            document.getElementById('r-servico').textContent = servico?.dataset.nome ?? '—';
+            document.getElementById('r-barbeiro').textContent = escolhido('barbeiro')?.dataset.nome ?? '—';
+            document.getElementById('r-data').textContent = data?.dataset.nome ?? '—';
+            document.getElementById('r-hora').textContent = hora?.value ?? '—';
+            document.getElementById('r-total').textContent = servico ? `${servico.dataset.preco}€` : '—';
+            document.getElementById('r-linha').textContent =
+                [servico?.dataset.nome, data?.dataset.nome, hora?.value].filter(Boolean).join(' · ') || 'Escolhe um serviço';
+            btnAvancar.disabled = !passoCompleto(atual);
+        }
+
+        function irPara(i) {
+            atual = Math.max(0, Math.min(i, passos.length - 1));
+            passos.forEach((p, n) => p.classList.toggle('ativo', n === atual));
+            document.getElementById('etapa-num').textContent = `Passo ${atual + 1} de ${passos.length}`;
+            document.getElementById('etapa-titulo').textContent = passos[atual].dataset.titulo;
+            document.getElementById('etapa-barra').style.width = `${(atual + 1) / passos.length * 100}%`;
+            btnVoltar.hidden = atual === 0;
+            btnAvancar.textContent = atual === passos.length - 1 ? 'Confirmar marcação' : 'Continuar';
+            atualizarResumo();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        form.addEventListener('change', (e) => {
+            const nome = e.target.name;
+            if (nome === 'data' || nome === 'barbeiro') atualizarHorarios();
+            atualizarResumo();
+            // Avança sozinho quando a escolha do passo fica completa
+            if (['servico', 'barbeiro', 'hora'].includes(nome) && passoCompleto(atual)) {
+                setTimeout(() => irPara(atual + 1), 200);
+            }
+        });
+
+        btnAvancar.addEventListener('click', () => {
+            if (atual < passos.length - 1) irPara(atual + 1);
+            else form.requestSubmit();
+        });
+        btnVoltar.addEventListener('click', () => irPara(atual - 1));
     </script>
 </body>
 </html>
